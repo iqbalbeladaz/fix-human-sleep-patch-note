@@ -15,10 +15,13 @@ PATCH_NOTE = (
 
 
 def main() -> None:
-    # The gate requires 1-160 characters of non-whitespace UTF-8 text.
+    # The gate requires 1-160 characters of non-whitespace UTF-8 text on a
+    # single line: the judge compares one line, so a stray newline would
+    # break the entry's fit as well as its voice.
     assert 1 <= len(PATCH_NOTE) <= 160 and PATCH_NOTE.strip(), (
         "patch note violates the gate"
     )
+    assert "\n" not in PATCH_NOTE, "patch note must stay a single line"
     os.makedirs("/output", exist_ok=True)
     with open("/output/entry.txt", "w", encoding="utf-8") as f:
         f.write(PATCH_NOTE)
